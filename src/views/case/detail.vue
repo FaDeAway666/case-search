@@ -21,7 +21,7 @@
         <template v-slot:item="{ item }">
           <tr class="text-no-wrap">
             <td>{{ item.name }}</td>
-            <td class="text-end">
+            <td class="text-end text-wrap">
               <template v-if="item.name === '案件状态'">
                 <v-chip :text="item.value" color="primary"></v-chip>
               </template>

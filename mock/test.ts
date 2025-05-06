@@ -61,7 +61,7 @@ export default [
           id: 1,
           caseName: '案件1',
           applicant: '申请人1',
-          respondent: '被申请人1',
+          respondent: 'A large temple dedicated to the goddess Artemis, one of the Seven Wonders of the Ancient World',
           applyTime: '2021-01-01',
           filingAmount: 132323,
           filingTime: '2021-01-02',
