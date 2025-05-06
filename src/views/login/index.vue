@@ -6,7 +6,7 @@
       <v-text-field v-model="idCard" label="身份证号" :rules="idCardRules" />
       <v-text-field v-model="verifyCode" label="验证码" :rules="verifyCodeRules">
         <template #append-inner>
-          <v-btn :loading="captchaLoading" @click="getVerifyCode">获取验证码</v-btn>
+          <v-btn :disabled="!checkPhone" :loading="captchaLoading" @click="getVerifyCode">获取验证码</v-btn>
         </template>
       </v-text-field>
       <v-btn :loading="loading" variant="elevated" color="primary" size="large" class="mt-2 w-100" @click="handleLogin">
@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 const form = ref();
 const phone = ref('');
@@ -42,6 +42,10 @@ const idCardRules = [
   (value: string) => !!value || '身份证号不能为空',
   (value: string) => /^[0-9]{17}[xX0-9]$/.test(value) || '请输入正确的身份证号',
 ];
+
+const checkPhone = computed(() => {
+  return /^1[3-9]\d{9}$/.test(phone.value);
+});
 
 const login = async () => {
   loading.value = true;
