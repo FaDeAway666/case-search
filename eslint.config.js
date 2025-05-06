@@ -1,4 +1,5 @@
 import pluginVue from 'eslint-plugin-vue';
+import prettier from 'eslint-config-prettier';
 import vueTsEslintConfig from '@vue/eslint-config-typescript';
 import skipFormatting from '@vue/eslint-config-prettier/skip-formatting';
 
@@ -15,6 +16,7 @@ export default [
 
   ...pluginVue.configs['flat/essential'],
   ...vueTsEslintConfig(),
+  prettier,
   skipFormatting,
   {
     name: 'app/rules',

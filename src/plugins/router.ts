@@ -13,6 +13,10 @@ const router = createRouter({
       path: '/',
       component: () => import('@/views/case/index.vue'),
     },
+    {
+      path: '/case/:id',
+      component: () => import('@/views/case/detail.vue'),
+    },
   ],
 });
 

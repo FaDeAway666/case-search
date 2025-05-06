@@ -6,7 +6,7 @@
       <v-text-field v-model="idCard" label="身份证号" :rules="idCardRules" />
       <v-text-field v-model="verifyCode" label="验证码" :rules="verifyCodeRules">
         <template #append-inner>
-          <v-btn>获取验证码</v-btn>
+          <v-btn :loading="captchaLoading" @click="getVerifyCode">获取验证码</v-btn>
         </template>
       </v-text-field>
       <v-btn :loading="loading" variant="elevated" color="primary" size="large" class="mt-2 w-100" @click="handleLogin">
@@ -24,6 +24,7 @@ const phone = ref('');
 const verifyCode = ref('');
 const idCard = ref('');
 const loading = ref(false);
+const captchaLoading = ref(false);
 
 const router = useRouter();
 
@@ -42,6 +43,34 @@ const idCardRules = [
   (value: string) => /^[0-9]{17}[xX0-9]$/.test(value) || '请输入正确的身份证号',
 ];
 
+const login = async () => {
+  loading.value = true;
+  const res = await fetch('/api/login', {
+    method: 'post',
+    body: JSON.stringify({
+      phone: phone.value,
+      idCard: idCard.value,
+      verifyCode: verifyCode.value,
+    }),
+  });
+  const result = await res.json();
+  if (result.code === 200) {
+    router.push('/');
+  }
+  loading.value = false;
+};
+
+const getVerifyCode = async () => {
+  captchaLoading.value = true;
+  await fetch('/api/verifyCode', {
+    method: 'post',
+    body: JSON.stringify({
+      phone: phone.value,
+    }),
+  });
+  captchaLoading.value = false;
+};
+
 const handleLogin = () => {
   form.value.validate().then(
     (valid: {
@@ -52,16 +81,8 @@ const handleLogin = () => {
       }[];
     }) => {
       console.log(valid);
-      fetch('/api/login', {
-        method: 'post',
-        body: JSON.stringify({
-          phone: phone.value,
-          idCard: idCard.value,
-          verifyCode: verifyCode.value,
-        }),
-      });
       if (valid.valid) {
-        router.push('/');
+        login();
       }
     },
   );
