@@ -48,6 +48,14 @@ export default defineConfig({
   },
   server: {
     port: 3000,
+    // 代理服务端接口配置写这里
+    // proxy: {
+    //   '/api': {
+    //     target: 'http://localhost:3000',
+    //     changeOrigin: true,
+    //     rewrite: (path) => path.replace(/^\/api/, '')
+    //   }
+    // }
   },
   css: {
     preprocessorOptions: {
